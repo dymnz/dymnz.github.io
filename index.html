@@ -1,0 +1,83 @@
+ <!DOCTYPE html>
+<html>
+
+<head>
+    <title>Ξ BlockBook</title>
+    <!--
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+        -->
+    <script src="./app.js"></script>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Ξ BlockBook</h1>
+        <h4>Payment request system</h4>
+        <div class="button plus addRequest">&#10133;</div>
+        <div class="button plus addBeggar">&#10133;</div>
+    </div>
+    <div id="content">
+        <div id="beggarTable">
+        </div>
+        <br>
+        <br>
+        <span id="status"></span>
+        <br>
+    </div>
+    <div id="requestModal" class="request-modal">
+        <div class="request-modal-content">
+            <div class="close">&times;</div>
+            <div class="formHeader">                
+                <div class="formTitle">Submit request</div>                
+            </div>
+            <div class="formContent">
+                <span class="formText">Amount</span>
+                <input type="number" class="amount" placeholder="0">
+                <span class="formText">Reason</span>
+                <input type="text" class="reason" placeholder="Because...">
+                <button type="button" class="formButton">Send</button>
+                <span class="status"></span>
+            </div>            
+        </div>
+    </div>
+    <div id="listModal" class="list-modal">
+        <div class="list-modal-content">
+            <div class="close">&times;</div>
+            <div class="formHeader">                
+                <div class="formTitle"></div>                
+            </div>
+            <div class="formContent">
+                
+            </div>            
+        </div>    
+        <div id="batchButton" class="floating">
+            <div id="batchApprove" class="button yellow">Approve</div>
+            <div id="batchPaid" class="button gray">Paid</div>   
+        </div>
+    </div>
+    <div id="beggarModal" class="beggar-modal">
+        <div class="beggar-modal-content">
+            <div class="close">&times;</div>
+            <div class="formHeader">                
+                <div class="formTitle">Add beggar</div>                
+            </div>
+            <div class="formContent">
+                <span class="formText">Address</span>
+                <input type="text" class="address" placeholder="0x0">
+                <span class="formText">Name</span>
+                <input type="text" class="name" placeholder="Put name here">
+                <button type="button" class="formButton">Send</button>
+                <span class="status"></span>
+            </div>            
+        </div>
+    </div>
+    <div id="loadingModal" class="beggar-modal">
+        <div class="beggar-modal-content">
+            <div class="formHeader">                
+                <div class="formTitle">Loading...</div>                
+            </div>            
+        </div>
+    </div>
+</body>
+
+</html>
