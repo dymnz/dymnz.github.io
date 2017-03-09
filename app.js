@@ -8362,7 +8362,7 @@ var stylesInDom = {},
 		};
 	},
 	isOldIE = memoize(function() {
-		return /msie [6-9]\b/.test(self.navigator.userAgent.toLowerCase());
+		return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
 	}),
 	getHeadElement = memoize(function () {
 		return document.head || document.getElementsByTagName("head")[0];
@@ -16670,10 +16670,12 @@ var requestInfo = {
     <div class="requestInfo">
         <div class="amount cell"></div>
         <div class="other cell">
-            <div class="reason"></div>                    
-            <div class="option"></div>
+            <div class="reason color"></div>                    
+            <div class="option color"></div>
         </div>
-        <div class="createdOn"></div>
+        <div class="footer">
+            <div class="additionalInfo color"></div>
+        </div>
         <input type="hidden" class="address"/>
         <input type="hidden" class="requestIndex"/>
     </div>`,
@@ -16681,10 +16683,12 @@ var requestInfo = {
     `
     <div class="amount cell"></div>
     <div class="other cell">
-        <div class="reason"></div>                    
-        <div class="option"></div>
+        <div class="reason color"></div>                    
+        <div class="option color"></div>
     </div>                    
-    <div class="createdOn"></div>
+    <div class="footer">
+        <div class="additionalInfo color"></div>
+    </div>
     <input type="hidden" class="address"/>
     <input type="hidden" class="requestIndex"/>
     `,
@@ -22862,7 +22866,7 @@ var toggleBatchApproveButton = function (stage) {
             batchApprove.style.display = "none";
     }
 
-}
+};
 
 var toggleLoadingModal = function (status) {
     var loadingModal = document.getElementById('loadingModal');
@@ -22872,7 +22876,7 @@ var toggleLoadingModal = function (status) {
     else{
         loadingModal.style.display = "none";    
     }
-}
+};
 
 var timeConverter = function(UNIX_timestamp) {
   var a = new Date(UNIX_timestamp * 1000);
@@ -22882,7 +22886,18 @@ var timeConverter = function(UNIX_timestamp) {
   var date = a.getDate();
   var time = date + ' ' + month + ' ' + year;
   return time;
-}
+};
+
+var hashString = function(string) {
+  var hash = 0, i, chr, len;
+  if (string.length === 0) return hash;
+  for (i = 0, len = string.length; i < len; i++) {
+    chr   = string.charCodeAt(i);
+    hash  = ((hash << 5) - hash) + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash%10000;
+};
 
 module.exports = {  
     showAddBeggarModal: showAddBeggarModal,
@@ -22892,7 +22907,8 @@ module.exports = {
     resetRequestModal: resetRequestModal,
     toggleBatchApproveButton: toggleBatchApproveButton,
     toggleLoadingModal: toggleLoadingModal,
-    timeConverter: timeConverter
+    timeConverter: timeConverter,
+    hashString: hashString
 };
 
 /***/ }),
@@ -23642,8 +23658,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!./app.css", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!./app.css");
+		module.hot.accept("!!./../../node_modules/css-loader/index.js!./app.css", function() {
+			var newContent = require("!!./../../node_modules/css-loader/index.js!./app.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -23668,8 +23684,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!./beggar-modal.css", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!./beggar-modal.css");
+		module.hot.accept("!!./../../node_modules/css-loader/index.js!./beggar-modal.css", function() {
+			var newContent = require("!!./../../node_modules/css-loader/index.js!./beggar-modal.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -23694,8 +23710,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!./beggarInfo.css", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!./beggarInfo.css");
+		module.hot.accept("!!./../../node_modules/css-loader/index.js!./beggarInfo.css", function() {
+			var newContent = require("!!./../../node_modules/css-loader/index.js!./beggarInfo.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -23720,8 +23736,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!./list-modal.css", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!./list-modal.css");
+		module.hot.accept("!!./../../node_modules/css-loader/index.js!./list-modal.css", function() {
+			var newContent = require("!!./../../node_modules/css-loader/index.js!./list-modal.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -23746,8 +23762,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!./request-modal.css", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!./request-modal.css");
+		module.hot.accept("!!./../../node_modules/css-loader/index.js!./request-modal.css", function() {
+			var newContent = require("!!./../../node_modules/css-loader/index.js!./request-modal.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -27117,7 +27133,7 @@ exports = module.exports = __webpack_require__(17)();
 
 
 // module
-exports.push([module.i, "html {\r\n    height: 100%;\r\n    width: 100%;\r\n    padding: 0;\r\n    font-family: \"Open Sans\", sans-serif;\r\n}\r\n\r\nbody {\r\n  margin-left: 1%;\r\n  margin-right: 1%;\r\n  margin-top: 1%;\r\n  /*max-width: 1440px;*/\r\n  min-width: 500px;\r\n}\r\n\r\nh1{\r\n  display: inline;\r\n  vertical-align: middle;\r\n  margin-top: 0px;\r\n  margin-bottom: 10px;  \r\n  padding: 0;\r\n  font-size: 5vmin;\r\n}\r\n\r\nh4 {\r\n  display: inline;\r\n  color: #666;\r\n  font-size: 2vmin;\r\n  position: absolute;\r\n  bottom: 0;\r\n  margin-bottom: 5px;\r\n  margin-left: 10px;\r\n  padding: 0;  \r\n}\r\ndiv {\r\n  cursor: default;\r\n}\r\n\r\n.header {\r\n  position: relative;\r\n  display: block;\r\n  margin-bottom: 3px;\r\n}\r\n\r\n.header .button {\r\n  float: right;\r\n  width: 6vmin;\r\n  height: 6vmin;\r\n  font-size: 5vmin;\r\n  border-radius: 6px;\r\n  box-shadow: none;\r\n  text-align: center;\r\n  vertical-align: center;\r\n  padding: 0;\r\n  display: none;\r\n  /*margin: 3px 10px 3px 10px;*/\r\n}\r\n\r\n.header .addRequest {\r\n  background-color: #ada;\r\n}\r\n\r\n.header .addBeggar {\r\n  background-color: #aad;\r\n}\r\n\r\n\r\n.header .button:hover,\r\n.header .button:focus {\r\n    color: white;\r\n    text-decoration: none;\r\n    cursor: pointer;\r\n}\r\n\r\n#content {\r\n  margin: auto;\r\n  display: block;\r\n\r\n  margin-top: 1vmin;\r\n  padding-top: 1vmin;\r\n\r\n  min-height: 700px;\r\n  background-color: #eee;\r\n  border-radius: 10px;\r\n}\r\n\r\n.floating {\r\n  position: fixed;\r\n  bottom: 40px;\r\n  right: 10px;\r\n  display: block;\r\n}\r\n\r\n.floating .button {\r\n  text-align: center;\r\n  padding: 5px;\r\n  border-radius: 5px;\r\n  margin-bottom: 10px;\r\n  font-size: 2.5vmin;\r\n}\r\n\r\n.floating .button:hover,\r\n.floating .button:focus {\r\n  color: white;\r\n  text-decoration: none;\r\n  cursor: pointer;\r\n}\r\n\r\n\r\n@media only screen and (min-width: 600px) {\r\n}\r\n\r\n@media only screen and (min-width: 900px) {\r\n.floating {\r\n  position: fixed;\r\n  bottom: 40px;\r\n  right: 40px;\r\n}\r\n\r\n.floating .button {\r\n  text-align: center;\r\n  padding: 10px;\r\n  font-size: 3vmin;\r\n}\r\n\r\n}\r\n", ""]);
+exports.push([module.i, "html {\n    height: 100%;\n    width: 100%;\n    padding: 0;\n    font-family: \"Open Sans\", sans-serif;\n}\n\nbody {\n  margin-left: 1%;\n  margin-right: 1%;\n  margin-top: 1%;\n  /*max-width: 1440px;*/\n  min-width: 500px;\n}\n\nh1{\n  display: inline;\n  vertical-align: middle;\n  margin-top: 0px;\n  margin-bottom: 10px;  \n  padding: 0;\n  font-size: 5vmin;\n}\n\nh4 {\n  display: inline;\n  color: #666;\n  font-size: 2vmin;\n  position: absolute;\n  bottom: 0;\n  margin-bottom: 5px;\n  margin-left: 10px;\n  padding: 0;  \n}\ndiv {\n  cursor: default;\n}\n\n.header {\n  position: relative;\n  display: block;\n  margin-bottom: 3px;\n}\n\n.header .button {\n  float: right;\n  width: 6vmin;\n  height: 6vmin;\n  font-size: 5vmin;\n  border-radius: 6px;\n  box-shadow: none;\n  text-align: center;\n  vertical-align: center;\n  padding: 0;\n  display: none;\n  /*margin: 3px 10px 3px 10px;*/\n}\n\n.header .addRequest {\n  background-color: #ada;\n}\n\n.header .addBeggar {\n  background-color: #aad;\n}\n\n\n.header .button:hover,\n.header .button:focus {\n    color: white;\n    text-decoration: none;\n    cursor: pointer;\n}\n\n#content {\n  margin: auto;\n  display: block;\n\n  margin-top: 1vmin;\n  padding-top: 1vmin;\n\n  min-height: 700px;\n  background-color: #eee;\n  border-radius: 10px;\n}\n\n.floating {\n  position: fixed;\n  bottom: 40px;\n  right: 10px;\n  display: block;\n}\n\n.floating .button {\n  text-align: center;\n  padding: 5px;\n  border-radius: 5px;\n  margin-bottom: 10px;\n  font-size: 2.5vmin;\n}\n\n.floating .button:hover,\n.floating .button:focus {\n  color: white;\n  text-decoration: none;\n  cursor: pointer;\n}\n\n\n@media only screen and (min-width: 600px) {\n}\n\n@media only screen and (min-width: 900px) {\n.floating {\n  position: fixed;\n  bottom: 40px;\n  right: 40px;\n}\n\n.floating .button {\n  text-align: center;\n  padding: 10px;\n  font-size: 3vmin;\n}\n\n}\n", ""]);
 
 // exports
 
@@ -27131,7 +27147,7 @@ exports = module.exports = __webpack_require__(17)();
 
 
 // module
-exports.push([module.i, "/* The beggar-modal (background) */\r\n.beggar-modal {\r\n    display: none; /* Hidden by default */\r\n    position: fixed; /* Stay in place */\r\n    z-index: 1; /* Sit on top */\r\n    left: 0;\r\n    top: 0;\r\n    width: 100%; /* Full width */\r\n    height: 100%; /* Full height */\r\n    overflow: auto; /* Enable scroll if needed */\r\n    background-color: rgb(0,0,0); /* Fallback color */\r\n    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */\r\n}\r\n\r\n/* beggar-modal Content/Box */\r\n.beggar-modal-content {\r\n    max-width: 600px;\r\n    background-color: #fefefe;\r\n    margin: 15% auto; /* 15% from the top and centered */\r\n    padding: 0 20px 20px 20px;\r\n    border: 1px solid #888;\r\n    width: 80%; /* Could be more or less, depending on screen size */\r\n    border-radius: 10px;\r\n    text-align: center;\r\n}\r\n\r\n.beggar-modal-content input {\r\n    display: inline-block;\r\n    width: 90%;\r\n    margin: 1vmin;\r\n    font-size: 3vmin;\r\n    padding: 10px;\r\n    border: solid 1px #c9c9c9;\r\n    transition: box-shadow 0.3s, border 0.3s;\r\n}\r\n\r\n.beggar-modal-content input:focus,\r\n.beggar-modal-content input.focus{\r\n  border: solid 1px #707070;\r\n  box-shadow: 0 0 5px 1px #969696;\r\n\r\n}\r\n\r\n.beggar-modal-content .address {\r\n    text-align: right;\r\n}\r\n\r\n.beggar-modal-content .formTitle {\r\n    padding: 0;\r\n    margin: 0;\r\n    display: block;\r\n    widows: 100%;\r\n    font-size: 4vmin;\r\n    font-weight: bold;\r\n    text-align: center;\r\n    color: #666;\r\n}\r\n\r\n.beggar-modal-content .formContent {\r\n    margin-top: 15px;\r\n    margin-bottom: 15px;\r\n}\r\n\r\n.beggar-modal-content .formContent .formText {\r\n    display: block;\r\n    text-align: left;\r\n    font-size: 2.5vmin;\r\n    color: #555;\r\n}\r\n\r\n.beggar-modal-content .status {\r\n    font-size: 3vmin;\r\n    color: #e33;\r\n}\r\n\r\n.beggar-modal-content .formButton {\r\n    display: block;\r\n    margin: auto;\r\n    margin-top: 20px;\r\n    padding: 15px;\r\n    width: 98%;\r\n    font-size: 3vmin;  \r\n    border-radius: 6px;  \r\n    box-shadow: none;\r\n    border: none;\r\n    background-color: #9e9; \r\n    margin-bottom: 10px;\r\n}\r\n\r\n/* The Close Button */\r\n.beggar-modal-content .close {\r\n    display: block;\r\n    width: 100%;\r\n\r\n    text-align: right;\r\n    color: #aaa;\r\n    float: right;\r\n    font-size: 5vmin;\r\n    font-weight: bold;\r\n    \r\n    position: relative;\r\n    top: 2vmin;\r\n}\r\n\r\n.beggar-modal-content .close:hover,\r\n.beggar-modal-content .close:focus {\r\n    color: black;\r\n    text-decoration: none;\r\n    cursor: pointer;\r\n}\r\n\r\ninput[type=number]::-webkit-inner-spin-button, \r\ninput[type=number]::-webkit-outer-spin-button { \r\n  -webkit-appearance: none; \r\n  margin: 0; \r\n}", ""]);
+exports.push([module.i, "/* The beggar-modal (background) */\n.beggar-modal {\n    display: none; /* Hidden by default */\n    position: fixed; /* Stay in place */\n    z-index: 1; /* Sit on top */\n    left: 0;\n    top: 0;\n    width: 100%; /* Full width */\n    height: 100%; /* Full height */\n    overflow: auto; /* Enable scroll if needed */\n    background-color: rgb(0,0,0); /* Fallback color */\n    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */\n}\n\n/* beggar-modal Content/Box */\n.beggar-modal-content {\n    max-width: 600px;\n    background-color: #fefefe;\n    margin: 15% auto; /* 15% from the top and centered */\n    padding: 0 20px 20px 20px;\n    border: 1px solid #888;\n    width: 80%; /* Could be more or less, depending on screen size */\n    border-radius: 10px;\n    text-align: center;\n}\n\n.beggar-modal-content input {\n    display: inline-block;\n    width: 90%;\n    margin: 1vmin;\n    font-size: 3vmin;\n    padding: 10px;\n    border: solid 1px #c9c9c9;\n    transition: box-shadow 0.3s, border 0.3s;\n}\n\n.beggar-modal-content input:focus,\n.beggar-modal-content input.focus{\n  border: solid 1px #707070;\n  box-shadow: 0 0 5px 1px #969696;\n\n}\n\n.beggar-modal-content .address {\n    text-align: right;\n}\n\n.beggar-modal-content .formTitle {\n    padding: 0;\n    margin: 0;\n    display: block;\n    widows: 100%;\n    font-size: 4vmin;\n    font-weight: bold;\n    text-align: center;\n    color: #666;\n}\n\n.beggar-modal-content .formContent {\n    margin-top: 15px;\n    margin-bottom: 15px;\n}\n\n.beggar-modal-content .formContent .formText {\n    display: block;\n    text-align: left;\n    font-size: 2.5vmin;\n    color: #555;\n}\n\n.beggar-modal-content .status {\n    font-size: 3vmin;\n    color: #e33;\n}\n\n.beggar-modal-content .formButton {\n    display: block;\n    margin: auto;\n    margin-top: 20px;\n    padding: 15px;\n    width: 98%;\n    font-size: 3vmin;  \n    border-radius: 6px;  \n    box-shadow: none;\n    border: none;\n    background-color: #9e9; \n    margin-bottom: 10px;\n}\n\n/* The Close Button */\n.beggar-modal-content .close {\n    display: block;\n    width: 100%;\n\n    text-align: right;\n    color: #aaa;\n    float: right;\n    font-size: 5vmin;\n    font-weight: bold;\n    \n    position: relative;\n    top: 2vmin;\n}\n\n.beggar-modal-content .close:hover,\n.beggar-modal-content .close:focus {\n    color: black;\n    text-decoration: none;\n    cursor: pointer;\n}\n\ninput[type=number]::-webkit-inner-spin-button, \ninput[type=number]::-webkit-outer-spin-button { \n  -webkit-appearance: none; \n  margin: 0; \n}", ""]);
 
 // exports
 
@@ -27145,7 +27161,7 @@ exports = module.exports = __webpack_require__(17)();
 
 
 // module
-exports.push([module.i, "\r\n#beggarTable {\r\n  display: block;\r\n  margin: 3vmin 3vmin;\r\n}\r\n\r\n.beggarInfo .cell:before {\r\n  content: \"\";\r\n  display: inline-block;\r\n  vertical-align: middle;\r\n  height: 100%;\r\n}\r\n\r\n.beggarInfo {\r\n  display: inline-block;\r\n  width: 95%;  \r\n  height: 10vh;\r\n  \r\n  margin-top: 1vmin;\r\n  margin-bottom: 1vmin;\r\n  margin-left: 2%;\r\n\r\n}\r\n\r\n.beggarInfo .cell {\r\n  display: inline-block;\r\n  width: 20%;\r\n  height: 100%;\r\n\r\n  border-radius: 7px;\r\n\r\n  text-align: center;\r\n  font-size: 22px;\r\n\r\n  overflow: auto;\r\n}\r\n\r\n.beggarInfo .name {\r\n  width: 35%;\r\n}\r\n\r\n.beggarInfo .cell:hover,\r\n.beggarInfo .cell:focus {\r\n    color: white;\r\n    text-decoration: none;\r\n    cursor: pointer;\r\n}\r\n\r\n\r\n@media only screen and (min-width: 600px) {\r\n  .beggarInfo .cell {\r\n    font-size: 3vmin;\r\n  }\r\n}\r\n\r\n@media only screen and (min-width: 900px) {\r\n  .beggarInfo {\r\n    width: 47%;   \r\n  }\r\n\r\n  .beggarInfo .cell {\r\n    font-size: 2.5vmin;\r\n  }\r\n}\r\n\r\n\r\n\r\n", ""]);
+exports.push([module.i, "\n#beggarTable {\n  display: block;\n  margin: 3vmin 3vmin;\n}\n\n.beggarInfo .cell:before {\n  content: \"\";\n  display: inline-block;\n  vertical-align: middle;\n  height: 100%;\n}\n\n.beggarInfo {\n  display: inline-block;\n  width: 95%;  \n  height: 10vh;\n  \n  margin-top: 1vmin;\n  margin-bottom: 1vmin;\n  margin-left: 2%;\n\n}\n\n.beggarInfo .cell {\n  display: inline-block;\n  width: 20%;\n  height: 100%;\n\n  border-radius: 7px;\n\n  text-align: center;\n  font-size: 22px;\n\n  overflow: auto;\n}\n\n.beggarInfo .name {\n  width: 35%;\n}\n\n.beggarInfo .cell:hover,\n.beggarInfo .cell:focus {\n    color: white;\n    text-decoration: none;\n    cursor: pointer;\n}\n\n\n@media only screen and (min-width: 600px) {\n  .beggarInfo .cell {\n    font-size: 3vmin;\n  }\n}\n\n@media only screen and (min-width: 900px) {\n  .beggarInfo {\n    width: 47%;   \n  }\n\n  .beggarInfo .cell {\n    font-size: 2.5vmin;\n  }\n}\n\n\n\n", ""]);
 
 // exports
 
@@ -27159,7 +27175,7 @@ exports = module.exports = __webpack_require__(17)();
 
 
 // module
-exports.push([module.i, "/* The list-modal (background) */\r\n.list-modal {\r\n    display: none; /* Hidden by default */\r\n    position: fixed; /* Stay in place */\r\n    z-index: 1; /* Sit on top */\r\n    left: 0;\r\n    top: 0;\r\n    width: 100%; /* Full width */\r\n    height: 100%; /* Full height */\r\n    overflow: auto; /* Enable scroll if needed */\r\n    background-color: rgb(0,0,0); /* Fallback color */\r\n    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */\r\n}\r\n\r\n/* list-modal Content/Box */\r\n.list-modal-content {   \r\n    max-width: 800px;\r\n    background-color: #fefefe;\r\n    margin: 5% auto; /* 15% from the top and centered */\r\n    padding: 0 20px 20px 20px;\r\n    border: 1px solid #888;\r\n    width: 80%; /* Could be more or less, depending on screen size */\r\n    border-radius: 10px;\r\n    text-align: center;\r\n}\r\n\r\n\r\n/*I can't understand why the title isn't centered*/\r\n.list-modal-content .formTitle {\r\n    padding: 0;\r\n    margin: 0;\r\n    display: inline-block;\r\n    widows: 100%;\r\n    font-size: 5vmin;\r\n    font-weight: bold;\r\n    text-align: center;\r\n    color: #666;\r\n}\r\n\r\n.list-modal-content .formContent {\r\n    margin-top: 15px;\r\n    margin-bottom: 15px;\r\n}\r\n\r\n\r\n.list-modal-content .requestInfo {\r\n    display: inline-block;\r\n    padding-top: 1vh;\r\n    margin-top: 0.5vh;\r\n    width: 100%;\r\n    height: 15vh;\r\n    \r\n    font-size: 3vmin;\r\n    border-radius: 7px;\r\n}\r\n\r\n.list-modal-content .requestInfo .cell {\r\n    display: inline-block;\r\n    height: 100%;\r\n    overflow: hidden;\r\n}\r\n\r\n.list-modal-content .requestInfo .amount:before {\r\n  content: \"\";\r\n  display: inline-block;\r\n  vertical-align: middle;\r\n  height: 100%;\r\n}\r\n\r\n.list-modal-content .requestInfo .amount {\r\n    width: 20%;\r\n    border-radius: 5px;\r\n    font-weight: bold;\r\n}\r\n\r\n.list-modal-content .requestInfo .other{\r\n    width: 70%;\r\n    font-size: 3vmin;\r\n    overflow: auto;\r\n    border-radius: 5px;\r\n    position: relative;\r\n}\r\n\r\n.list-modal-content .requestInfo .createdOn{\r\n    display: inline-block;\r\n    position: relative;\r\n    top: -6px;\r\n    margin-right: 0;\r\n    padding: 2px 5px 2px 0;\r\n    width: 90%;\r\n    font-size: 2vmin;\r\n    border-radius: 5px;\r\n    text-align: right;\r\n}\r\n\r\n\r\n.list-modal-content .requestInfo .other .reason:before {\r\n  content: \"\";\r\n  display: inline-block;\r\n  vertical-align: middle;\r\n  height: 100%;\r\n}\r\n\r\n.list-modal-content .requestInfo .other .reason{\r\n    display: block;\r\n\r\n    padding: 10px 2px 0 2px;\r\n    word-wrap: break-word;\r\n    overflow: hidden;\r\n}\r\n\r\n.list-modal-content .requestInfo .other .option {\r\n    display: table;\r\n    margin-top: 3px;\r\n    table-layout: fixed;\r\n    \r\n    border-radius: 7px;\r\n    position: absolute;\r\n    bottom: 0;\r\n    width: 100%;\r\n    height: 20%;\r\n}\r\n\r\n.list-modal-content .option button {\r\n    display: table-cell;\r\n    border-radius: 6px;  \r\n    box-shadow: none;\r\n    border: none;\r\n    font-size: 2.6vmin;\r\n    margin: 3px;\r\n    padding: 3px 10px 3px 10px;\r\n}\r\n\r\n/*Dispute*/\r\n.red {\r\n    background-color: #dd5555;\r\n}\r\n\r\n/*Waitng approval*/\r\n.green {\r\n    background-color: #aaeeaa;\r\n}\r\n\r\n/*Waiting payment*/\r\n.yellow {\r\n    background-color: rgba(255, 241, 133, 1);\r\n}\r\n\r\n/*Paid*/\r\n.gray {\r\n    background-color: #eeeeee;\r\n}\r\n\r\n.opacity2 {\r\n    opacity: 0.2;\r\n}\r\n\r\n.darker {\r\n    filter: brightness(50%);\r\n}\r\n\r\n.strike {\r\n    text-decoration: line-through;\r\n}\r\n\r\n/* The Close Button */\r\n.list-modal-content .close {\r\n    display: block;\r\n    width: 100%;\r\n   \r\n    text-align: right;\r\n    color: #aaa;\r\n    font-size: 5vmin;\r\n    font-weight: bold;\r\n    \r\n    position: relative;\r\n    top: 2vmin;\r\n}\r\n\r\n.list-modal-content .close:hover,\r\n.list-modal-content .close:focus, {\r\n    color: black;\r\n    text-decoration: none;\r\n    cursor: pointer;\r\n}\r\n\r\n.list-modal-content .amount:hover,\r\n.list-modal-content .amount:focus,\r\n.list-modal-content button:hover,\r\n.list-modal-content button:focus  {\r\n    color: white;\r\n    text-decoration: none;\r\n    cursor: pointer;\r\n}", ""]);
+exports.push([module.i, "/* The list-modal (background) */\n.list-modal {\n    display: none; /* Hidden by default */\n    position: fixed; /* Stay in place */\n    z-index: 1; /* Sit on top */\n    left: 0;\n    top: 0;\n    width: 100%; /* Full width */\n    height: 100%; /* Full height */\n    overflow: auto; /* Enable scroll if needed */\n    background-color: rgb(0,0,0); /* Fallback color */\n    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */\n}\n\n/* list-modal Content/Box */\n.list-modal-content {   \n    max-width: 800px;\n    background-color: #fefefe;\n    margin: 5% auto; /* 15% from the top and centered */\n    padding: 0 20px 20px 20px;\n    border: 1px solid #888;\n    width: 80%; /* Could be more or less, depending on screen size */\n    border-radius: 10px;\n    text-align: center;\n}\n\n\n/*I can't understand why the title isn't centered*/\n.list-modal-content .formTitle {\n    padding: 0;\n    margin: 0;\n    display: inline-block;\n    widows: 100%;\n    font-size: 5vmin;\n    font-weight: bold;\n    text-align: center;\n    color: #666;\n}\n\n.list-modal-content .formContent {\n    margin-top: 15px;\n    margin-bottom: 15px;\n}\n\n\n.list-modal-content .requestInfo {\n    display: inline-block;\n    padding-top: 1vh;\n    margin-top: 0.5vh;\n    width: 100%;\n    height: 15vh;\n    \n    font-size: 3vmin;\n    border-radius: 7px;\n}\n\n.list-modal-content .requestInfo .cell {\n    display: inline-block;\n    height: 100%;\n    overflow: hidden;\n}\n\n.list-modal-content .requestInfo .amount:before {\n  content: \"\";\n  display: inline-block;\n  vertical-align: middle;\n  height: 100%;\n}\n\n.list-modal-content .requestInfo .amount {\n    width: 20%;\n    border-radius: 5px;\n    font-weight: bold;\n}\n\n.list-modal-content .requestInfo .other{\n    width: 70%;\n    font-size: 3vmin;\n    overflow: auto;\n    border-radius: 5px;\n    position: relative;\n}\n\n.list-modal-content .requestInfo .footer{\n    display: inline-block;\n    position: relative;\n    top: -6px;\n    margin-top: 3px;\n    margin-right: 0;\n    padding: 2px 5px 2px 0;\n    width: 90%;\n    font-size: 2vmin;\n    border-radius: 5px;\n    text-align: right;\n}\n\n.list-modal-content .requestInfo .additionalInfo {\n    float: right;\n    width: 70%;\n}\n\n\n.list-modal-content .requestInfo .other .reason:before {\n  content: \"\";\n  display: inline-block;\n  vertical-align: middle;\n  height: 100%;\n}\n\n.list-modal-content .requestInfo .other .reason{\n    display: block;\n\n    padding: 10px 2px 0 2px;\n    word-wrap: break-word;\n    overflow: hidden;\n}\n\n.list-modal-content .requestInfo .other .option {\n    display: table;\n    margin-top: 3px;\n    table-layout: fixed;\n    \n    border-radius: 7px;\n    position: absolute;\n    bottom: 0;\n    width: 100%;\n    height: 20%;\n}\n\n.list-modal-content .option button {\n    display: table-cell;\n    border-radius: 6px;  \n    box-shadow: none;\n    border: none;\n    font-size: 2.6vmin;\n    margin: 3px;\n    padding: 3px 10px 3px 10px;\n}\n\n/*Dispute*/\n.red {\n    background-color: #dd5555;\n}\n\n/*Waitng approval*/\n.green {\n    background-color: #aaeeaa;\n}\n\n/*Waiting payment*/\n.yellow {\n    background-color: rgba(255, 241, 133, 1);\n}\n\n/*Paid*/\n.gray {\n    background-color: #eeeeee;\n}\n\n.opacity2 {\n    opacity: 0.2;\n}\n\n.darker {\n    filter: brightness(50%);\n}\n\n.strike {\n    text-decoration: line-through;\n}\n\n/* The Close Button */\n.list-modal-content .close {\n    display: block;\n    width: 100%;\n   \n    text-align: right;\n    color: #aaa;\n    font-size: 5vmin;\n    font-weight: bold;\n    \n    position: relative;\n    top: 2vmin;\n}\n\n.list-modal-content .close:hover,\n.list-modal-content .close:focus, {\n    color: black;\n    text-decoration: none;\n    cursor: pointer;\n}\n\n.list-modal-content .amount:hover,\n.list-modal-content .amount:focus,\n.list-modal-content button:hover,\n.list-modal-content button:focus  {\n    color: white;\n    text-decoration: none;\n    cursor: pointer;\n}", ""]);
 
 // exports
 
@@ -27173,7 +27189,7 @@ exports = module.exports = __webpack_require__(17)();
 
 
 // module
-exports.push([module.i, "/* The request-modal (background) */\r\n.request-modal {\r\n    display: none; /* Hidden by default */\r\n    position: fixed; /* Stay in place */\r\n    z-index: 1; /* Sit on top */\r\n    left: 0;\r\n    top: 0;\r\n    width: 100%; /* Full width */\r\n    height: 100%; /* Full height */\r\n    overflow: auto; /* Enable scroll if needed */\r\n    background-color: rgb(0,0,0); /* Fallback color */\r\n    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */\r\n}\r\n\r\n/* request-modal Content/Box */\r\n.request-modal-content {\r\n    max-width: 600px;\r\n    background-color: #fefefe;\r\n    margin: 15% auto; /* 15% from the top and centered */\r\n    padding: 0 20px 20px 20px;\r\n    border: 1px solid #888;\r\n    width: 80%; /* Could be more or less, depending on screen size */\r\n    border-radius: 10px;\r\n    text-align: center;\r\n}\r\n\r\n.request-modal-content input {\r\n    display: inline-block;\r\n    width: 90%;\r\n    margin: 1vmin;\r\n    font-size: 3vmin;\r\n    padding: 10px;\r\n    border: solid 1px #c9c9c9;\r\n    transition: box-shadow 0.3s, border 0.3s;\r\n}\r\n\r\n.request-modal-content input:focus,\r\n.request-modal-content input.focus{\r\n  border: solid 1px #707070;\r\n  box-shadow: 0 0 5px 1px #969696;\r\n\r\n}\r\n\r\n.request-modal-content input[type=\"number\"] {\r\n    text-align: right;\r\n}\r\n\r\n.request-modal-content .formTitle {\r\n    padding: 0;\r\n    margin: 0;\r\n    display: block;\r\n    widows: 100%;\r\n    font-size: 4vmin;\r\n    font-weight: bold;\r\n    text-align: center;\r\n    color: #666;\r\n}\r\n\r\n.request-modal-content .formContent {\r\n    margin-top: 15px;\r\n    margin-bottom: 15px;\r\n}\r\n\r\n.request-modal-content .formContent .formText {\r\n    display: block;\r\n    text-align: left;\r\n    font-size: 2.5vmin;\r\n    color: #555;\r\n}\r\n\r\n.request-modal-content .status {\r\n    font-size: 3vmin;\r\n    color: #e33;\r\n}\r\n\r\n.request-modal-content .formButton {\r\n    display: block;\r\n    margin: auto;\r\n    margin-top: 20px;\r\n    padding: 15px;\r\n    width: 98%;\r\n    font-size: 3vmin;  \r\n    border-radius: 6px;  \r\n    box-shadow: none;\r\n    border: none;\r\n    background-color: #9e9; \r\n    margin-bottom: 10px;\r\n}\r\n\r\n/* The Close Button */\r\n.request-modal-content .close {\r\n    display: block;\r\n    width: 100%;\r\n\r\n    text-align: right;\r\n    color: #aaa;\r\n    float: right;\r\n    font-size: 5vmin;\r\n    font-weight: bold;\r\n    \r\n    position: relative;\r\n    top: 2vmin;\r\n}\r\n\r\n.request-modal-content .close:hover,\r\n.request-modal-content .close:focus{\r\n    color: black;\r\n    text-decoration: none;\r\n    cursor: pointer;\r\n}\r\n\r\n\r\n\r\ninput[type=number]::-webkit-inner-spin-button, \r\ninput[type=number]::-webkit-outer-spin-button { \r\n  -webkit-appearance: none; \r\n  margin: 0; \r\n}", ""]);
+exports.push([module.i, "/* The request-modal (background) */\n.request-modal {\n    display: none; /* Hidden by default */\n    position: fixed; /* Stay in place */\n    z-index: 1; /* Sit on top */\n    left: 0;\n    top: 0;\n    width: 100%; /* Full width */\n    height: 100%; /* Full height */\n    overflow: auto; /* Enable scroll if needed */\n    background-color: rgb(0,0,0); /* Fallback color */\n    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */\n}\n\n/* request-modal Content/Box */\n.request-modal-content {\n    max-width: 600px;\n    background-color: #fefefe;\n    margin: 15% auto; /* 15% from the top and centered */\n    padding: 0 20px 20px 20px;\n    border: 1px solid #888;\n    width: 80%; /* Could be more or less, depending on screen size */\n    border-radius: 10px;\n    text-align: center;\n}\n\n.request-modal-content input {\n    display: inline-block;\n    width: 90%;\n    margin: 1vmin;\n    font-size: 3vmin;\n    padding: 10px;\n    border: solid 1px #c9c9c9;\n    transition: box-shadow 0.3s, border 0.3s;\n}\n\n.request-modal-content input:focus,\n.request-modal-content input.focus{\n  border: solid 1px #707070;\n  box-shadow: 0 0 5px 1px #969696;\n\n}\n\n.request-modal-content input[type=\"number\"] {\n    text-align: right;\n}\n\n.request-modal-content .formTitle {\n    padding: 0;\n    margin: 0;\n    display: block;\n    widows: 100%;\n    font-size: 4vmin;\n    font-weight: bold;\n    text-align: center;\n    color: #666;\n}\n\n.request-modal-content .formContent {\n    margin-top: 15px;\n    margin-bottom: 15px;\n}\n\n.request-modal-content .formContent .formText {\n    display: block;\n    text-align: left;\n    font-size: 2.5vmin;\n    color: #555;\n}\n\n.request-modal-content .status {\n    font-size: 3vmin;\n    color: #e33;\n}\n\n.request-modal-content .formButton {\n    display: block;\n    margin: auto;\n    margin-top: 20px;\n    padding: 15px;\n    width: 98%;\n    font-size: 3vmin;  \n    border-radius: 6px;  \n    box-shadow: none;\n    border: none;\n    background-color: #9e9; \n    margin-bottom: 10px;\n}\n\n/* The Close Button */\n.request-modal-content .close {\n    display: block;\n    width: 100%;\n\n    text-align: right;\n    color: #aaa;\n    float: right;\n    font-size: 5vmin;\n    font-weight: bold;\n    \n    position: relative;\n    top: 2vmin;\n}\n\n.request-modal-content .close:hover,\n.request-modal-content .close:focus{\n    color: black;\n    text-decoration: none;\n    cursor: pointer;\n}\n\n\n\ninput[type=number]::-webkit-inner-spin-button, \ninput[type=number]::-webkit-outer-spin-button { \n  -webkit-appearance: none; \n  margin: 0; \n}", ""]);
 
 // exports
 
@@ -29497,7 +29513,7 @@ module.exports = {
 				"spec": "0.0.5",
 				"type": "version"
 			},
-			"E:\\Ethereun\\BlockBook\\node_modules\\truffle-contract"
+			"/Users/wangshunxing/Documents/ETH/SimpleLedger/node_modules/truffle-contract"
 		]
 	],
 	"_from": "truffle-contract-schema@0.0.5",
@@ -29531,7 +29547,7 @@ module.exports = {
 	"_shasum": "5e9d20bd0bf2a27fe94310748249d484eee49961",
 	"_shrinkwrap": null,
 	"_spec": "truffle-contract-schema@0.0.5",
-	"_where": "E:\\Ethereun\\BlockBook\\node_modules\\truffle-contract",
+	"_where": "/Users/wangshunxing/Documents/ETH/SimpleLedger/node_modules/truffle-contract",
 	"author": {
 		"name": "Tim Coulter",
 		"email": "tim.coulter@consensys.net"
@@ -37724,14 +37740,17 @@ window.App = {
     cell.getElementsByClassName("address")[0].value = info.addr;
     cell.getElementsByClassName("requestIndex")[0].value = info.index;
 
-    cell.getElementsByClassName("createdOn")[0].innerHTML = UI.timeConverter(info.createdOn);
+    // The receipt has is the hashed string of addr+reason+index+amount % 10000
+    cell.getElementsByClassName("additionalInfo")[0].innerHTML = 
+      "#"+UI.hashString(info.addr+info.reason+info.index+info.amount) + " - " + 
+    UI.timeConverter(info.createdOn);
 
+    var classes = ["amount", "other", "footer"];
+    var colorClass = "";
     switch (Number(status)) {
       case ContractFunctions.RequestStatus.PendingApproval:
-        
-        cell.getElementsByClassName("amount")[0].className += " green";
-        cell.getElementsByClassName("other")[0].className += " green";
-        cell.getElementsByClassName("createdOn")[0].className += " green";
+        colorClass = "green";
+
         if (myAccountRole != AccountRole.Giver)
           break;
 
@@ -37752,10 +37771,7 @@ window.App = {
       break;
 
       case ContractFunctions.RequestStatus.Approved:
-
-        cell.getElementsByClassName("amount")[0].className += " yellow";
-        cell.getElementsByClassName("other")[0].className += " yellow";
-        cell.getElementsByClassName("createdOn")[0].className += " yellow";
+        colorClass = "yellow";
 
         if (myAccountRole != AccountRole.Giver)
           break;
@@ -37771,32 +37787,31 @@ window.App = {
       break; 
 
       case ContractFunctions.RequestStatus.Disputed:
+        colorClass = "red";    
+
+        if (myAccountRole != AccountRole.Giver)
+          break;
+
         cell.getElementsByClassName("option")[0].innerHTML 
-          = UIBlocks.requestInfo.disputedOptions; 
-        cell.getElementsByClassName("amount")[0].className += " red";
-        cell.getElementsByClassName("other")[0].className += " red";
-        cell.getElementsByClassName("createdOn")[0].className += " red";        
+          = UIBlocks.requestInfo.disputedOptions;        
+
       break;
 
       case ContractFunctions.RequestStatus.Removed:
-        cell.getElementsByClassName("amount")[0].className += " gray opacity2 strike";
-        cell.getElementsByClassName("other")[0].className += " gray opacity2 strike";
-        cell.getElementsByClassName("createdOn")[0].className += " gray opacity2 strike";
+        colorClass = "gray opacity2 strike";    
       break;
 
       case ContractFunctions.RequestStatus.Paid:
-        cell.getElementsByClassName("amount")[0].className += " gray";
-        cell.getElementsByClassName("other")[0].className += " gray"; 
-        cell.getElementsByClassName("createdOn")[0].className += " gray";     
+        colorClass = "gray";     
       break;  
 
       case ContractFunctions.RequestStatus.Rejected:
-        cell.getElementsByClassName("amount")[0].className += " gray opacity2 strike";
-        cell.getElementsByClassName("other")[0].className += " gray opacity2 strike";
-        cell.getElementsByClassName("createdOn")[0].className += " gray opacity2 strike";        
+        colorClass = "gray opacity2 strike";        
       break;                
     }  
-
+    classes.forEach(function (ele) {
+      cell.getElementsByClassName(ele)[0].className += " " + colorClass;
+    })
   },
 
   batchApprove: function (addrs, requestIndices) {
