@@ -1,0 +1,21 @@
+# Projects
+- project: <a href="https://github.com/dymnz/BlockBook">ΞBlockBook</a>
+  role: Developer
+  duration: 2017 (Pretty much finished)
+  description: Full-stack payment request system based on Ethereum and other web front-end tech.
+
+- project: <a href="https://github.com/dymnz/ShitHappened">Sh_tHappened</a>
+  role: Developer
+  duration: 2017 (Unfinish but usable)
+  description: Modualized website content update checking and notification program based on Python
+
+- project: <a href="https://github.com/dymnz/Paper">PaperQuotes</a>
+  role: Developer
+  duration: 2017 (Underdevelopment)
+  description: Research paper quotation logging and management system based on Python-Django
+
+- project: <a href="https://github.com/dymnz/sEMG/issues">My work on sEMG signal</a>
+  role: Researcher
+  duration: 2017 &mdash; ????
+  description: Tracks the progress of my thesis
+
